@@ -3,15 +3,17 @@ package com.oocl.cultivation;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmartParkingBoy {
+public class SmartParkingBoy extends ParkingBoy {
     private List<ParkingLot> parkingLots;
 
     public SmartParkingBoy(List<ParkingLot> parkingLots) {
+        super(parkingLots);
 
         this.parkingLots = parkingLots;
     }
 
-    public List<ParkingTicket> park(List<Car> cars) {
+    @Override
+    public List<ParkingTicket> park(Car... cars) {
         List<ParkingTicket> tickets = new ArrayList<>();
         for (Car car : cars) {
             ParkingTicket ticket = parkingLots.get(0).add(car);

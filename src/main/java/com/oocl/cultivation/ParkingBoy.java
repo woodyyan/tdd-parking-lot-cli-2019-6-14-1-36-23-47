@@ -1,21 +1,29 @@
 package com.oocl.cultivation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParkingBoy {
 
-    private final ParkingLot parkingLot;
+    private final List<ParkingLot> parkingLots;
     private String lastErrorMessage;
 
-    public ParkingBoy(ParkingLot parkingLot) {
-        this.parkingLot = parkingLot;
+    public ParkingBoy(List<ParkingLot> parkingLots) {
+        this.parkingLots = parkingLots;
     }
 
-    public ParkingTicket park(Car car) {
+    public List<ParkingTicket> park(Car... cars) {
         lastErrorMessage = null;
-        ParkingTicket ticket = parkingLot.add(car);
-        if (ticket == null) {
-            lastErrorMessage = "The parking lot is full.";
+        List<ParkingTicket> tickets = new ArrayList<>();
+        for (Car car : cars) {
+            ParkingTicket ticket = parkingLots.get(0).add(car);
+            if (ticket == null) {
+                lastErrorMessage = "The parking lot is full.";
+            } else {
+                tickets.add(ticket);
+            }
         }
-        return ticket;
+        return tickets;
     }
 
     public Car fetch(ParkingTicket ticket) {
@@ -23,7 +31,7 @@ public class ParkingBoy {
             lastErrorMessage = "Please provide your parking ticket.";
             return null;
         }
-        Car car = parkingLot.getCar(ticket);
+        Car car = parkingLots.get(0).getCar(ticket);
         if (car == null) {
             lastErrorMessage = "Unrecognized parking ticket.";
         }
